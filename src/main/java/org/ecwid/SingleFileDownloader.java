@@ -40,7 +40,7 @@ public class SingleFileDownloader implements Runnable {
             }
             LOGGER.info("End downloading file from URL " + urlStr);
         } catch (Exception e) {
-            LOGGER.warn("Error downloading file from URL " + urlStr);
+            LOGGER.warn("Error downloading file from URL " + urlStr, e);
         } finally {
             closeResources(in, fout);
         }

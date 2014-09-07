@@ -15,7 +15,7 @@ run {
     args '-l'
     args '2000k'
     args '-o'
-    args 'output_folder'
+    args 'output'
     args '-f'
     args 'links.txt'
 }

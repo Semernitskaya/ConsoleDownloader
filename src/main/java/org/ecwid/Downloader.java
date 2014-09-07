@@ -19,11 +19,11 @@ public class Downloader {
 
     private int threadsCount;
 
-    private int maxSpeed;
+    private long maxSpeed;
 
     private DownloadData downloadData;
 
-    public Downloader(int threadsCount, int maxSpeed, DownloadData downloadData) {
+    public Downloader(int threadsCount, long maxSpeed, DownloadData downloadData) {
         this.threadsCount = threadsCount;
         this.maxSpeed = maxSpeed;
         this.downloadData = downloadData;

@@ -1,0 +1,13 @@
+http://www.vogue.ru/upload/iblock/d20/d20fa4a58ec191538390f8e15fa05866.jpg image10.jpg
+http://www.vogue.ru/upload/iblock/d20/d20fa4a58ec191538390f8e15fa05866.jpg image11.jpg
+http://www.invalid_url.ru/upload.jpg image.jpg
+http://www.vogue.ru/upload/iblock/569/56998d74985bae8bb4c7f3a18567d36a.jpg image20.jpg
+
+http://example.com/archive.zip archive_1.zip
+
+
+http://example.com/archive.zip archive_2.zip http://example.com/archive.zip archive_3.zip
+
+
+http://example.com/archive.zip archive.zip
+http://example.com/image.bmp image.bmp
