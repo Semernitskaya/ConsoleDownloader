@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'org.ecwid.test.ApplicationStarter'
+mainClassName = 'org.ecwid.ApplicationStarter'
 sourceCompatibility = 1.7
 version = '1.0'
 
