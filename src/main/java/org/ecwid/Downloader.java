@@ -30,8 +30,9 @@ public class Downloader {
 
     public void download() throws IOException {
         List<SingleFileDownloader> singleFileDownloaders = new ArrayList<SingleFileDownloader>();
-        for (Map.Entry<URL, List<File>> entry : downloadData.getMap().entrySet()) {
-            singleFileDownloaders.add(new SingleFileDownloader(entry.getKey(), entry.getValue().get(0)));
+        for (Map.Entry<String, List<File>> entry : downloadData.getMap().entrySet()) {
+            URL url = new URL(entry.getKey());
+            singleFileDownloaders.add(new SingleFileDownloader(url, entry.getValue().get(0)));
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadsCount);
         for (SingleFileDownloader singleFileDownloader : singleFileDownloaders) {

@@ -42,4 +42,28 @@ public class DownloadData {
     public Map<String, List<File>> getMap() {
         return map;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DownloadData that = (DownloadData) o;
+
+        if (!map.equals(that.map)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return map.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "DownloadData{" +
+                "map=" + map +
+                '}';
+    }
 }

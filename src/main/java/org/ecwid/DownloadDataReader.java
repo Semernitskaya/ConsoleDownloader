@@ -32,6 +32,7 @@ public class DownloadDataReader {
                 String[] strings = line.trim().split(" +");
                 if (strings.length != 2) {
                     LOGGER.warn("Invalid download data line: " + line);
+                    continue;
                 }
                 downloadData.add(strings[0], new File(outputDir, strings[1]));
             }
