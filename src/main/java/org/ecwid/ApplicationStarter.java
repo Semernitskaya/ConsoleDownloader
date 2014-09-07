@@ -26,6 +26,7 @@ public class ApplicationStarter {
         long timeBefore = System.currentTimeMillis();
         try {
             readParameters(args);
+            createOutputDirIfNeed();
             DownloadDataReader dataReader = new DownloadDataReader(dataFile, outputDir);
             Downloader downloader = new Downloader(threadCount, maxSpeedInBytes, dataReader.readData());
             downloader.download();
@@ -34,6 +35,12 @@ public class ApplicationStarter {
         }
         long timeAfter = System.currentTimeMillis();
         LOGGER.info(String.format("Total execution time %s", timeAfter - timeBefore));
+    }
+
+    private static void createOutputDirIfNeed() {
+        if (!outputDir.exists()) {
+            outputDir.mkdirs();
+        }
     }
 
     private static void readParameters(String[] args) {

@@ -31,8 +31,7 @@ public class Downloader {
 
     public void download() {
         LOGGER.info("Start downloading files");
-        long timeBefore = System.currentTimeMillis();
-        List<SingleFileDownloader> singleFileDownloaders = new ArrayList<SingleFileDownloader>();
+        List<SingleFileDownloader> singleFileDownloaders = new ArrayList<>();
         for (Map.Entry<String, List<File>> entry : downloadData.getMap().entrySet()) {
             singleFileDownloaders.add(new SingleFileDownloader(entry.getKey(), entry.getValue().get(0)));
         }
