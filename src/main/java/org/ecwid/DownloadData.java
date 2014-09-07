@@ -1,7 +1,9 @@
 package org.ecwid;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,19 +13,33 @@ import java.util.Map;
  */
 public class DownloadData {
 
-    private File outputDir;
+    private static final Logger LOGGER = Logger.getLogger(DownloadData.class);
 
-    private final Map<URL, List<File>> map = new HashMap<URL, List<File>>();
+    private final Map<String, List<File>> map = new HashMap<>();
 
-    public DownloadData(File outputDir) {
-        this.outputDir = outputDir;
+    public void add(String url, File file) {
+        if (fileWasAdded(file)) {
+            LOGGER.warn(String.format("Link for file %s was added previously", file));
+            return;
+        }
+        List<File> files = map.get(url);
+        if (files == null) {
+            files = new ArrayList<>();
+            map.put(url, files);
+        }
+        files.add(file);
     }
 
-    public void add(String link, String fileName) {
-
+    private boolean fileWasAdded(File file) {
+        for (List<File> files : map.values()) {
+            if (files.contains(file)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Map<URL, List<File>> getMap() {
+    public Map<String, List<File>> getMap() {
         return map;
     }
 }
