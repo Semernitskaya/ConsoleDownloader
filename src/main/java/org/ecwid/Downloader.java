@@ -1,5 +1,6 @@
 package org.ecwid;
 
+import com.google.common.util.concurrent.RateLimiter;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
@@ -31,18 +32,25 @@ public class Downloader {
 
     public void download() {
         LOGGER.info("Start downloading files");
+        RateLimiter rateLimiter = RateLimiter.create(maxSpeed);
+        long timeBefore = System.currentTimeMillis();
         List<SingleFileDownloader> singleFileDownloaders = new ArrayList<>();
         for (Map.Entry<String, List<File>> entry : downloadData.getMap().entrySet()) {
-            singleFileDownloaders.add(new SingleFileDownloader(entry.getKey(), entry.getValue().get(0)));
+            singleFileDownloaders.add(new SingleFileDownloader(entry.getKey(), entry.getValue().get(0), rateLimiter));
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadsCount);
         for (SingleFileDownloader singleFileDownloader : singleFileDownloaders) {
             threadPool.execute(singleFileDownloader);
         }
         waitForExecution(threadPool);
+        long timeAfter = System.currentTimeMillis();
         copyLoadedFiles();
         LOGGER.info("End downloading files");
-        LOGGER.info(String.format("Total bytes downloaded %s", aggregateDownloadedBytes(singleFileDownloaders)));
+        long totalDownloadedBytes = aggregateDownloadedBytes(singleFileDownloaders);
+        LOGGER.info(String.format("Total bytes downloaded %s", totalDownloadedBytes));
+        LOGGER.info(String.format("Total downloading time in millisecond %s", timeAfter - timeBefore));
+        LOGGER.info(String.format("Average downloading speed in byte/second %s", totalDownloadedBytes * 1000 / (timeAfter - timeBefore)));
+        LOGGER.info(String.format("Max speed in byte/second %s", maxSpeed));
     }
 
     private long aggregateDownloadedBytes(List<SingleFileDownloader> singleFileDownloaders) {

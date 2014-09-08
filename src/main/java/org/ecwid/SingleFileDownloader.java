@@ -1,5 +1,6 @@
 package org.ecwid;
 
+import com.google.common.util.concurrent.RateLimiter;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -11,16 +12,20 @@ import java.net.URL;
 public class SingleFileDownloader implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(SingleFileDownloader.class);
+    public static final int BUFF_SIZE = 1024;
 
     private String urlStr;
 
     private File localFile;
 
+    private RateLimiter rateLimiter;
+
     private long downloadedBytes;
 
-    public SingleFileDownloader(String urlStr, File localFile) {
+    public SingleFileDownloader(String urlStr, File localFile, RateLimiter rateLimiter) {
         this.urlStr = urlStr;
         this.localFile = localFile;
+        this.rateLimiter = rateLimiter;
     }
 
     @Override
@@ -32,9 +37,11 @@ public class SingleFileDownloader implements Runnable {
             URL url = new URL(urlStr);
             in = new BufferedInputStream(url.openStream());
             fout = new FileOutputStream(localFile);
-            final byte data[] = new byte[1024];
+            final byte data[] = new byte[BUFF_SIZE];
             int count;
-            while ((count = in.read(data, 0, 1024)) != -1) {
+            while ((count = in.read(data, 0, BUFF_SIZE)) != -1) {
+                rateLimiter.acquire(BUFF_SIZE);
+                LOGGER.debug("reading from URL " + urlStr);
                 downloadedBytes += count;
                 fout.write(data, 0, count);
             }

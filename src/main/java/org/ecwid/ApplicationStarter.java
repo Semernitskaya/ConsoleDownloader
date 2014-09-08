@@ -1,13 +1,10 @@
 package org.ecwid;
 
-
 import org.apache.log4j.Logger;
 
 import java.io.File;
 
-import static org.ecwid.ArgumentsUtil.ARGUMENTS_PATTERN;
-import static org.ecwid.ArgumentsUtil.getMaxSpeedInBytes;
-import static org.ecwid.ArgumentsUtil.isArgumentsFormatValid;
+import static org.ecwid.ArgumentsUtil.*;
 
 /**
  * Author: Semernitskaya
@@ -47,7 +44,7 @@ public class ApplicationStarter {
     }
 
     private static void readParameters(String[] args) {
-        if (isArgumentsFormatValid(args)) {
+        if (!isArgumentsFormatValid(args)) {
             throw new IllegalArgumentException();
         }
         try {
