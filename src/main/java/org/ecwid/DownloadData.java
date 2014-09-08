@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * Created by Semernitskaya
+ *
+ * contains URLs and corresponding local files
  */
 public class DownloadData {
 

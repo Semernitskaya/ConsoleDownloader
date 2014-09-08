@@ -8,6 +8,8 @@ import java.net.URL;
 
 /**
  * Created by Semernitskaya
+ *
+ * class for downloading file from single URL
  */
 public class SingleFileDownloader implements Runnable {
 

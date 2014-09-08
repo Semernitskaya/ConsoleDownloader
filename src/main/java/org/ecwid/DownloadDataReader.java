@@ -9,6 +9,9 @@ import java.io.IOException;
 
 /**
  * Created by Semernitskaya
+ *
+ * class for reading contains URLs and corresponding local files from file
+ * and storing them in DownloadData
  */
 public class DownloadDataReader {
 

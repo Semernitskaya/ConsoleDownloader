@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by Semernitskaya
+ *
+ * class for downloading files from multiple URLs in multiple threads
  */
 public class Downloader {
 
