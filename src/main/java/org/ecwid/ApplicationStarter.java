@@ -5,6 +5,10 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 
+import static org.ecwid.ArgumentsUtil.ARGUMENTS_PATTERN;
+import static org.ecwid.ArgumentsUtil.getMaxSpeedInBytes;
+import static org.ecwid.ArgumentsUtil.isArgumentsFormatValid;
+
 /**
  * Author: Semernitskaya
  */
@@ -20,7 +24,6 @@ public class ApplicationStarter {
 
     private static File outputDir;
 
-    private static final String ARGUMENTS_PATTERN = "-n <thread count> -l <max speed> -o <output directory path> -f <links data file path>";
 
     public static void main(String[] args) {
         long timeBefore = System.currentTimeMillis();
@@ -44,12 +47,7 @@ public class ApplicationStarter {
     }
 
     private static void readParameters(String[] args) {
-        if (args.length != 8) {
-            LOGGER.error("Invalid arguments count");
-            throw new IllegalArgumentException();
-        }
-        if (!args[0].equals("-n") || !args[2].equals("-l") || !args[4].equals("-o") || !args[6].equals("-f")) {
-            LOGGER.error("Invalid arguments format. Arguments must mach pattern " + ARGUMENTS_PATTERN);
+        if (isArgumentsFormatValid(args)) {
             throw new IllegalArgumentException();
         }
         try {
@@ -61,15 +59,5 @@ public class ApplicationStarter {
             LOGGER.error("Invalid arguments format. Arguments must mach pattern " + ARGUMENTS_PATTERN);
             throw new IllegalArgumentException(e);
         }
-    }
-
-    private static long getMaxSpeedInBytes(String arg) {
-        if (arg.toLowerCase().endsWith("m")) {
-            return Long.parseLong(arg.substring(0, arg.length() - 1)) * 1024 * 1024;
-        }
-        if (arg.toLowerCase().endsWith("k")) {
-            return Long.parseLong(arg.substring(0, arg.length() - 1)) * 1024;
-        }
-        return Long.parseLong(arg);
     }
 }
