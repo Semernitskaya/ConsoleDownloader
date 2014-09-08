@@ -21,7 +21,6 @@ public class ApplicationStarter {
 
     private static File outputDir;
 
-
     public static void main(String[] args) {
         long timeBefore = System.currentTimeMillis();
         try {
@@ -48,10 +47,10 @@ public class ApplicationStarter {
             throw new IllegalArgumentException();
         }
         try {
-            threadCount = Integer.parseInt(args[1]);
-            maxSpeedInBytes = getMaxSpeedInBytes(args[3]);
-            outputDir = new File(args[5]);
-            dataFile = new File(args[7]);
+            threadCount = Integer.parseInt(args[THREAD_COUNT_INDEX]);
+            maxSpeedInBytes = getMaxSpeedInBytes(args[MAX_SPEED_INDEX]);
+            outputDir = new File(args[OUTPUT_DIR_INDEX]);
+            dataFile = new File(args[DATA_FILE_INDEX]);
         } catch (Exception e) {
             LOGGER.error("Invalid arguments format. Arguments must mach pattern " + ARGUMENTS_PATTERN);
             throw new IllegalArgumentException(e);

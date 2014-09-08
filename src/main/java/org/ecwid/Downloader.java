@@ -32,25 +32,31 @@ public class Downloader {
 
     public void download() {
         LOGGER.info("Start downloading files");
-        RateLimiter rateLimiter = RateLimiter.create(maxSpeed);
         long timeBefore = System.currentTimeMillis();
-        List<SingleFileDownloader> singleFileDownloaders = new ArrayList<>();
-        for (Map.Entry<String, List<File>> entry : downloadData.getMap().entrySet()) {
-            singleFileDownloaders.add(new SingleFileDownloader(entry.getKey(), entry.getValue().get(0), rateLimiter));
-        }
+        List<SingleFileDownloader> singleFileDownloaders = getSingleFileDownloaders();
         ExecutorService threadPool = Executors.newFixedThreadPool(threadsCount);
         for (SingleFileDownloader singleFileDownloader : singleFileDownloaders) {
             threadPool.execute(singleFileDownloader);
         }
         waitForExecution(threadPool);
-        long timeAfter = System.currentTimeMillis();
-        copyLoadedFiles();
         LOGGER.info("End downloading files");
+        long timeAfter = System.currentTimeMillis();
         long totalDownloadedBytes = aggregateDownloadedBytes(singleFileDownloaders);
+        long downloadingTime = timeAfter - timeBefore;
+        copyLoadedFiles();
         LOGGER.info(String.format("Total bytes downloaded %s", totalDownloadedBytes));
-        LOGGER.info(String.format("Total downloading time in millisecond %s", timeAfter - timeBefore));
-        LOGGER.info(String.format("Average downloading speed in byte/second %s", totalDownloadedBytes * 1000 / (timeAfter - timeBefore)));
+        LOGGER.info(String.format("Total downloading time in millisecond %s", downloadingTime));
+        LOGGER.info(String.format("Average downloading speed in byte/second %s", totalDownloadedBytes * 1000 / downloadingTime));
         LOGGER.info(String.format("Max speed in byte/second %s", maxSpeed));
+    }
+
+    private List<SingleFileDownloader> getSingleFileDownloaders() {
+        RateLimiter rateLimiter = RateLimiter.create(maxSpeed);
+        List<SingleFileDownloader> singleFileDownloaders = new ArrayList<>();
+        for (Map.Entry<String, List<File>> entry : downloadData.getMap().entrySet()) {
+            singleFileDownloaders.add(new SingleFileDownloader(entry.getKey(), entry.getValue().get(0), rateLimiter));
+        }
+        return singleFileDownloaders;
     }
 
     private long aggregateDownloadedBytes(List<SingleFileDownloader> singleFileDownloaders) {

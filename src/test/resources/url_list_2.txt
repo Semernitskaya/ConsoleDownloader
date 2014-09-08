@@ -1,0 +1,4 @@
+http://example.com/archive_1.zip archive_1.zip
+http://example.com/archive_2.zip    archive_2.zip
+   http://example.com/archive_3.zip archive_3_1.zip
+http://example.com/archive_3.zip archive_3_2.zip

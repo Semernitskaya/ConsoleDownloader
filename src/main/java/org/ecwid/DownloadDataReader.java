@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class DownloadDataReader {
 
-    private static final Logger LOGGER = Logger.getLogger(DownloadData.class);
+    private static final Logger LOGGER = Logger.getLogger(DownloadDataReader.class);
 
     private File dataFile;
 

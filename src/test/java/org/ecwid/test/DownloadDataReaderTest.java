@@ -17,15 +17,31 @@ public class DownloadDataReaderTest {
 
     @Test
     public void case01() {
-        ArrayList<File> firstUrlFiles = new ArrayList<>();
-        firstUrlFiles.add(new File(OUTPUT_DIR, "archive.zip"));
-        firstUrlFiles.add(new File(OUTPUT_DIR, "archive_1.zip"));
-        ArrayList<File> secondUrlFiles = new ArrayList<>();
-        secondUrlFiles.add(new File(OUTPUT_DIR, "image.bmp"));
         DownloadData downloadData = new DownloadData();
-        downloadData.getMap().put("http://example.com/archive.zip", firstUrlFiles);
-        downloadData.getMap().put("http://example.com/image.bmp", secondUrlFiles);
+        ArrayList<File> files = new ArrayList<>();
+        files.add(new File(OUTPUT_DIR, "archive.zip"));
+        files.add(new File(OUTPUT_DIR, "archive_1.zip"));
+        downloadData.getMap().put("http://example.com/archive.zip", files);
+        files = new ArrayList<>();
+        files.add(new File(OUTPUT_DIR, "image.bmp"));
+        downloadData.getMap().put("http://example.com/image.bmp", files);
         runTestCase("url_list_1.txt", downloadData);
+    }
+
+    @Test
+    public void case02() {
+        DownloadData downloadData = new DownloadData();
+        ArrayList<File> files = new ArrayList<>();
+        files.add(new File(OUTPUT_DIR, "archive_1.zip"));
+        downloadData.getMap().put("http://example.com/archive_1.zip", files);
+        files = new ArrayList<>();
+        files.add(new File(OUTPUT_DIR, "archive_2.zip"));
+        downloadData.getMap().put("http://example.com/archive_2.zip", files);
+        files = new ArrayList<>();
+        files.add(new File(OUTPUT_DIR, "archive_3_1.zip"));
+        files.add(new File(OUTPUT_DIR, "archive_3_2.zip"));
+        downloadData.getMap().put("http://example.com/archive_3.zip", files);
+        runTestCase("url_list_2.txt", downloadData);
     }
 
     void runTestCase(String fileName, DownloadData expectedDownloadData) {
