@@ -44,7 +44,7 @@ public class SingleFileDownloader implements Runnable {
             int count;
             while ((count = in.read(data, 0, BUFF_SIZE)) != -1) {
                 rateLimiter.acquire(BUFF_SIZE);
-                LOGGER.debug("reading from URL " + urlStr);
+                LOGGER.debug("Reading chunk of data from URL " + urlStr);
                 downloadedBytes += count;
                 out.write(data, 0, count);
             }
